@@ -1,0 +1,23 @@
+{
+    "ejercicios": [
+      {
+        "id": 1,
+        "nombre": "Sentadillas",
+        "descripcion": "Ejercicio de piernas que fortalece los cuádriceps y los glúteos.",
+        "categoria": "Piernas"
+      },
+      {
+        "id": 2,
+        "nombre": "Flexiones de pecho",
+        "descripcion": "Ejercicio de fuerza que trabaja los músculos pectorales, tríceps y hombros.",
+        "categoria": "Pecho"
+      },
+      {
+        "id": 3,
+        "nombre": "Plancha",
+        "descripcion": "Ejercicio de fortalecimiento del core que mejora la estabilidad y resistencia.",
+        "categoria": "Abdominales"
+      }
+    ]
+  }
+  
