@@ -24,6 +24,7 @@ app.use('/api/ejercicios',require('./Rutas/Ejercicios'));
 app.use('/api/Rutinas',require('./Rutas/Rutinas'));
 app.use('/api/Usuarios',require('./Rutas/Usuarios'));
 app.use('/api/rutina_ejercicios',require('./Rutas/Rutina_Ejercicios'));
+app.use('/api/progreso',require('./Rutas/Progreso'));
 
 //inicio del servidor
 app.listen(app.get('port'),()=>{

@@ -25,7 +25,12 @@ pool.connect()
 
 router.get('/', async (req, res) => {
   try {
-    const query = 'SELECT * FROM Rutinas';
+    const query = `SELECT R.nombreRutina, 
+    STRING_AGG('- ' || E.nombreEjercicio || ' (Repeticiones: ' || COALESCE(RE.repeticiones::text, 'N/A') || ', Tiempo: ' || COALESCE(RE.tiempo::text, 'N/A') || ')', E'\n') AS ejercicios_asociados
+FROM Rutinas R
+JOIN Rutina_Ejercicios RE ON R.id = RE.idRutina
+JOIN Ejercicios E ON RE.idEjercicio = E.id
+GROUP BY R.nombreRutina;`;
     const result = await pool.query(query);
     res.send(result.rows);
   } catch (error) {
@@ -35,45 +40,6 @@ router.get('/', async (req, res) => {
 });
 
     
-router.post('/', async (req, res) => {
-  try {
-    const { nombre, correo, contrasena, fechaNacimiento } = req.body;
 
-    if (!nombre) {
-      res.status(400).send({ error: 'Falta el NOMBRE del usuario' });
-      return;
-    }
-
-    if (!correo) {
-      res.status(400).send({ error: 'Falta el CORREO del usuario' });
-      return;
-    }
-
-    if (!contrasena) {
-      res.status(400).send({ error: 'Falta el PASSWORD del usuario' });
-      return;
-    }
-
-    if (!fechaNacimiento) {
-      res.status(400).send({ error: 'Falta la FECHANACIMIENTO del usuario' });
-      return;
-    }
-
-    const query = `
-    insert into Usuarios (nombre, correo, contrasena, fechaNacimiento)
-    values ($1, $2, MD5($3), $4)
-    `;
-
-    //const pool = await sql.connect(dbConfig);
-
-   // await db.none(query, [nombre, correo, contrasena, fechaNacimiento]);
-   const result = await pool.query(query, [nombre, correo, contrasena, fechaNacimiento]);
-
-    res.send('Usuario guardado exitosamente');
-  } catch (error) {
-    console.error('Error al guardar el usuario:', error);
-    res.status(500).send({ error: 'Ocurrió un error al guardar el usuario' });
-  }
-});
 
 module.exports = router;

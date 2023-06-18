@@ -25,7 +25,7 @@ pool.connect()
 
 router.get('/', async (req, res) => {
   try {
-    const query = 'SELECT * FROM Ejercicios';
+    const query = `SELECT * from Ejercicios;`;
     const result = await pool.query(query);
     res.send(result.rows);
   } catch (error) {
