@@ -25,21 +25,19 @@ pool.connect()
 
 router.get('/', async (req, res) => {
   try {
-    const query = `SELECT E.nombreEjercicio AS ejercicio, 
-    E.descripcion,
-    E.gif,
-    STRING_AGG(GM."nomGrupoMuscular", ', ') AS gruposMuscularesAsociados
+    const query = `SELECT GM."nomGrupoMuscular" AS grupoMuscular, 
+    STRING_AGG(E.id || '-' || E.nombreEjercicio, ', ') AS ejerciciosAsociados
 FROM Ejercicios E
 JOIN Ejercicios_GrpMuscular EGM ON E.id = EGM.idEjercicio
 JOIN GruposMusculares GM ON EGM.idGrupoMuscular = GM.id
-GROUP BY E.nombreEjercicio, E.descripcion, E.gif;
+GROUP BY GM."nomGrupoMuscular";
 
 `;
     const result = await pool.query(query);
     res.send(result.rows);
   } catch (error) {
-    console.error('Error al obtener los ejercicios:', error);
-    res.status(500).send({ error: 'Ocurrió un error al obtener los ejercicios' });
+    console.error('Error al obtener los grupos musculares:', error);
+    res.status(500).send({ error: 'Ocurrió un error al obtener los grupos musculares' });
   }
 });
 
